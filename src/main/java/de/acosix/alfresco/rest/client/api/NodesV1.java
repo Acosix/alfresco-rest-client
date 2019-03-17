@@ -412,12 +412,6 @@ public interface NodesV1
      *            the maximum number of children to retrieve
      * @param orderBy
      *            the sort order for children to use
-     * @param include
-     *            the list of optional fields / information to include in the response
-     * @param fields
-     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
-     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
-     *            as "include no fields at all"
      * @return the list of children of the specified node
      */
     @GET

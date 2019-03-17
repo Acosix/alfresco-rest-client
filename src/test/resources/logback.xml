@@ -28,7 +28,7 @@
     </root>
 
     <logger name="${project.artifactId}" level="DEBUG" />
-    <logger name="org.apache.http.wire" level="DEBUG" />
+    <logger name="org.apache.http.wire" level="INFO" />
     <logger name="org.jboss.resteasy" level="INFO" />
 
 </configuration>

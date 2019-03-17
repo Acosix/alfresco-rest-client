@@ -238,33 +238,30 @@
 
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/integration/*.java</exclude>
+                            <exclude>**/integration/**/*.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
                     <executions>
                         <execution>
-                            <id>default-test</id>
                             <goals>
-                                <goal>test</goal>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
                             </goals>
-                            <configuration>
-                                <excludes>
-                                    <exclude>**/integration/*.java</exclude>
-                                    <exclude>**/integration/**/*.java</exclude>
-                                </excludes>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>integration-test</id>
-                            <phase>integration-test</phase>
-                            <goals>
-                                <goal>test</goal>
-                            </goals>
-                            <configuration>
-                                <includes>
-                                    <include>**/integration/*.java</include>
-                                    <include>**/integration/**/*.java</include>
-                                </includes>
-                            </configuration>
                         </execution>
                     </executions>
+                    <configuration>
+                        <includes>
+                            <include>**/integration/*.java</include>
+                            <include>**/integration/**/*.java</include>
+                        </includes>
+                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -313,7 +310,7 @@
                                     <cmd>postgres -c max_connections=300 -c log_min_messages=LOG</cmd>
                                     <network>
                                         <mode>custom</mode>
-                                        <name>${moduleId}-test</name>
+                                        <name>${project.artifactId}-test</name>
                                         <alias>postgres</alias>
                                     </network>
                                 </run>
@@ -339,7 +336,7 @@
                                     </ports>
                                     <network>
                                         <mode>custom</mode>
-                                        <name>${moduleId}-test</name>
+                                        <name>${project.artifactId}-test</name>
                                         <alias>repository</alias>
                                     </network>
                                     <dependsOn>
@@ -404,6 +401,10 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
         </plugins>
 

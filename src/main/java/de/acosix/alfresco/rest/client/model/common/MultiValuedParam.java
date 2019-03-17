@@ -30,14 +30,14 @@ import javax.ws.rs.ext.ParamConverter;
  *
  * <pre>
  *
- * NodeResponseEntity getNode(@PathParam("nodeId") String nodeId, @QueryParam("include") List<IncludeOption> include,
- *         &#64;QueryParam("fields") List<String> fields);
+ * NodeResponseEntity getNode(@PathParam("nodeId") String nodeId, @QueryParam("include") List&lt;IncludeOption&gt; include,
+ *         &#64;QueryParam("fields") List&lt;String&gt; fields);
  * </pre>
  *
  * the parameters for {@code include} and {@code fields} would be processed into
  *
  * <pre>
- * ...?include=includeElem1&include=includeElem2&include=includeElemX&fields=fieldsElem1&fields=fieldsElem2&fields=fieldsElemX
+ * ...?include=includeElem1&amp;include=includeElem2&amp;include=includeElemX&amp;fields=fieldsElem1&amp;fields=fieldsElem2&amp;fields=fieldsElemX
  * </pre>
  *
  * Even though there is support for custom parameter conversion via {@link ParamConverter parameter converters}, any converter is only
