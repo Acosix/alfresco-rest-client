@@ -21,46 +21,46 @@ package de.acosix.alfresco.rest.client.model.nodes;
 public class ContentInfo
 {
 
-    private String mimetype;
+    private String mimeType;
 
-    private String mimetypeName;
+    private String mimeTypeName;
 
     private Long sizeInBytes;
 
     private String encoding;
 
     /**
-     * @return the mimetype
+     * @return the mimeType
      */
-    public String getMimetype()
+    public String getMimeType()
     {
-        return this.mimetype;
+        return this.mimeType;
     }
 
     /**
-     * @param mimetype
-     *            the mimetype to set
+     * @param mimeType
+     *            the mimeType to set
      */
-    public void setMimetype(final String mimetype)
+    public void setMimeType(final String mimeType)
     {
-        this.mimetype = mimetype;
+        this.mimeType = mimeType;
     }
 
     /**
-     * @return the mimetypeName
+     * @return the mimeTypeName
      */
-    public String getMimetypeName()
+    public String getMimeTypeName()
     {
-        return this.mimetypeName;
+        return this.mimeTypeName;
     }
 
     /**
-     * @param mimetypeName
-     *            the mimetypeName to set
+     * @param mimeTypeName
+     *            the mimeTypeName to set
      */
-    public void setMimetypeName(final String mimetypeName)
+    public void setMimeTypeName(final String mimeTypeName)
     {
-        this.mimetypeName = mimetypeName;
+        this.mimeTypeName = mimeTypeName;
     }
 
     /**

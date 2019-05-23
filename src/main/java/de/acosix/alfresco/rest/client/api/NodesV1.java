@@ -15,17 +15,20 @@
  */
 package de.acosix.alfresco.rest.client.api;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import de.acosix.alfresco.rest.client.model.common.MultiValuedParam;
 import de.acosix.alfresco.rest.client.model.common.PaginatedList;
@@ -647,7 +650,7 @@ public interface NodesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/{nodeId}/children")
-    NodeResponseEntity createNode(@PathParam("nodeId") final String nodeId, final NodeCreationRequestEntity nodeToCreate,
+    NodeResponseEntity createNode(@PathParam("nodeId") String nodeId, NodeCreationRequestEntity nodeToCreate,
             @QueryParam("autoRename") boolean autoRename);
 
     /**
@@ -673,7 +676,7 @@ public interface NodesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/{nodeId}/children")
-    NodeResponseEntity createNode(@PathParam("nodeId") final String nodeId, final NodeCreationRequestEntity nodeToCreate,
+    NodeResponseEntity createNode(@PathParam("nodeId") String nodeId, NodeCreationRequestEntity nodeToCreate,
             @QueryParam("autoRename") boolean autoRename, @QueryParam("include") MultiValuedParam<IncludeOption> include,
             @QueryParam("fields") MultiValuedParam<String> fields);
 
@@ -733,8 +736,8 @@ public interface NodesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/{nodeId}/children")
-    PaginatedList<NodeResponseEntity> createNodes(@PathParam("nodeId") final String nodeId,
-            final List<NodeCreationRequestEntity> nodesToCreate, @QueryParam("autoRename") boolean autoRename);
+    PaginatedList<NodeResponseEntity> createNodes(@PathParam("nodeId") String nodeId, List<NodeCreationRequestEntity> nodesToCreate,
+            @QueryParam("autoRename") boolean autoRename);
 
     /**
      * Creates multiple content-less nodes.
@@ -759,7 +762,45 @@ public interface NodesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/{nodeId}/children")
-    PaginatedList<NodeResponseEntity> createNodes(@PathParam("nodeId") final String nodeId,
-            final List<NodeCreationRequestEntity> nodesToCreate, @QueryParam("autoRename") boolean autoRename,
+    PaginatedList<NodeResponseEntity> createNodes(@PathParam("nodeId") String nodeId, List<NodeCreationRequestEntity> nodesToCreate,
+            @QueryParam("autoRename") boolean autoRename, @QueryParam("include") MultiValuedParam<IncludeOption> include,
+            @QueryParam("fields") MultiValuedParam<String> fields);
+
+    @GET
+    @Path("/{nodeId}/content")
+    Response getContent(@PathParam("nodeId") String nodeId);
+
+    @GET
+    @Path("/{nodeId}/content")
+    Response getContent(@PathParam("nodeId") String nodeId, @HeaderParam("If-Modified-Since") String ifModifiedSince,
+            @HeaderParam("Range") String range);
+
+    @PUT
+    @Consumes("application/octet-stream")
+    @Produces("application/json")
+    @Path("/{nodeId}/content")
+    NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType);
+
+    @PUT
+    @Consumes("application/octet-stream")
+    @Produces("application/json")
+    @Path("/{nodeId}/content")
+    NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType,
+            @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
+
+    @PUT
+    @Consumes("application/octet-stream")
+    @Produces("application/json")
+    @Path("/{nodeId}/content")
+    NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType,
+            @QueryParam("name") String name, @QueryParam("include") MultiValuedParam<IncludeOption> include,
+            @QueryParam("fields") MultiValuedParam<String> fields);
+
+    @PUT
+    @Consumes("application/octet-stream")
+    @Produces("application/json")
+    @Path("/{nodeId}/content")
+    NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType,
+            @QueryParam("name") String name, @QueryParam("majorVersion") boolean majorVersion, @QueryParam("comment") String comment,
             @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
 }

@@ -48,6 +48,57 @@ public class CommonNodeEntity<PI extends PermissionsInfo> extends NodeCoreIdenti
     }
 
     /**
+     * Sets the value of an individual property.
+     *
+     * @param propertyName
+     *            the name of the property for which to set the value
+     * @param value
+     *            the value to set
+     */
+    public void setProperty(final String propertyName, final Object value)
+    {
+        if (this.properties == null)
+        {
+            this.properties = new HashMap<>();
+        }
+        this.properties.put(propertyName, value);
+    }
+
+    /**
+     * Retrieves the value of an individual property.
+     *
+     * @param propertyName
+     *            the name of the property for which to retrieve the value
+     * @return the current value of the property, or {@code null} if the property was not set
+     */
+    public Object getProperty(final String propertyName)
+    {
+        Object currentValue = null;
+        if (this.properties != null)
+        {
+            currentValue = this.properties.get(propertyName);
+        }
+        return currentValue;
+    }
+
+    /**
+     * Removes the value of an individual property.
+     *
+     * @param propertyName
+     *            the name of the property for which to remove the value
+     * @return the previous value of the property, or {@code null} if the property was not set
+     */
+    public Object removeProperty(final String propertyName)
+    {
+        Object removedValue = null;
+        if (this.properties != null)
+        {
+            removedValue = this.properties.remove(propertyName);
+        }
+        return removedValue;
+    }
+
+    /**
      * @return the permissions
      */
     public PI getPermissions()
