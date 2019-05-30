@@ -766,21 +766,65 @@ public interface NodesV1
             @QueryParam("autoRename") boolean autoRename, @QueryParam("include") MultiValuedParam<IncludeOption> include,
             @QueryParam("fields") MultiValuedParam<String> fields);
 
+    /**
+     * Retrieves the content (restricted to cm:content property) of the specified node.
+     *
+     * @param nodeId
+     *            the node from which to retrieve the content
+     * @return the response object allowing access to the raw content
+     */
     @GET
     @Path("/{nodeId}/content")
     Response getContent(@PathParam("nodeId") String nodeId);
 
+    /**
+     * Retrieves the content (restricted to cm:content property) of the specified node.
+     *
+     * @param nodeId
+     *            the node from which to retrieve the content
+     * @param ifModifiedSince
+     *            a textual representation of a timestamp to limit this operation to only retrieve content if the node was modified since
+     *            the specified time - this parameter must comply to the value syntax of the HTTP header "If-Modified-Since"
+     * @param range
+     *            the textual representation of one or many byte ranges to retrieve one or many partial chunks of the content - this
+     *            parameter must comply to the value syntax of the HTTP header "Range"
+     * @return the response object allowing access to the raw content
+     */
     @GET
     @Path("/{nodeId}/content")
     Response getContent(@PathParam("nodeId") String nodeId, @HeaderParam("If-Modified-Since") String ifModifiedSince,
             @HeaderParam("Range") String range);
 
+    /**
+     * Sets the content (restricted to cm:content property) of the specified node. This operation never explicitly creates a new version,
+     * though a version may be created by server-side automation / behaviours.
+     *
+     * @param nodeId
+     *            the node for which to set the content
+     * @param content
+     *            the raw stream to provide the content
+     * @param contentType
+     *            the mimetype of the content - this parameter must comply with the value syntax of the HTTP header "Content-Type"
+     * @return the details of the updated node
+     */
     @PUT
     @Consumes("application/octet-stream")
     @Produces("application/json")
     @Path("/{nodeId}/content")
     NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType);
 
+    /**
+     * Sets the content (restricted to cm:content property) of the specified node. This operation never explicitly creates a new version,
+     * though a version may be created by server-side automation / behaviours.
+     *
+     * @param nodeId
+     *            the node for which to set the content
+     * @param content
+     *            the raw stream to provide the content
+     * @param contentType
+     *            the mimetype of the content - this parameter must comply with the value syntax of the HTTP header "Content-Type"
+     * @return the details of the updated node
+     */
     @PUT
     @Consumes("application/octet-stream")
     @Produces("application/json")
@@ -788,6 +832,26 @@ public interface NodesV1
     NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType,
             @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
 
+    /**
+     * Sets the content (restricted to cm:content property) of the specified node. This operation never explicitly creates a new version,
+     * though a version may be created by server-side automation / behaviours.
+     *
+     * @param nodeId
+     *            the node for which to set the content
+     * @param content
+     *            the raw stream to provide the content
+     * @param contentType
+     *            the mimetype of the content - this parameter must comply with the value syntax of the HTTP header "Content-Type"
+     * @param name
+     *            the new name of the node to combine the content update operation with a rename operation
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
+     * @return the details of the updated node
+     */
     @PUT
     @Consumes("application/octet-stream")
     @Produces("application/json")
@@ -796,6 +860,31 @@ public interface NodesV1
             @QueryParam("name") String name, @QueryParam("include") MultiValuedParam<IncludeOption> include,
             @QueryParam("fields") MultiValuedParam<String> fields);
 
+    /**
+     * Sets the content (restricted to cm:content property) of the specified node. This operation always creates a new version, the type of
+     * which can be determined via the {@code majorVersion} parameter.
+     *
+     * @param nodeId
+     *            the node for which to set the content
+     * @param content
+     *            the raw stream to provide the content
+     * @param contentType
+     *            the mimetype of the content - this parameter must comply with the value syntax of the HTTP header "Content-Type"
+     * @param name
+     *            the new name of the node to combine the content update operation with a rename operation
+     * @param majorVersion
+     *            {@code true} if this operation should result in the creation of a major version, {@code false} if it should create a minor
+     *            version
+     * @param the
+     *            comment to set in the new version
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
+     * @return the details of the updated node
+     */
     @PUT
     @Consumes("application/octet-stream")
     @Produces("application/json")
