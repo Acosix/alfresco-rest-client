@@ -30,6 +30,26 @@ public class TicketRequest
     private String password;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public TicketRequest()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public TicketRequest(final TicketRequest reference)
+    {
+        this.userId = reference.getUserId();
+        this.password = reference.getPassword();
+    }
+
+    /**
      * @return the userId
      */
     public String getUserId()

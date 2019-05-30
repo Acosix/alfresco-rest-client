@@ -23,14 +23,23 @@ public class AssociationTypeEntity
 
     private String assocType;
 
+    /**
+     * Creates a new instance of this value class.
+     */
     public AssociationTypeEntity()
     {
-        // DEFAULT
+        // NO-OP
     }
 
-    public AssociationTypeEntity(final AssociationTypeEntity template)
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public AssociationTypeEntity(final AssociationTypeEntity reference)
     {
-        this.assocType = template.getAssocType();
+        this.assocType = reference.getAssocType();
     }
 
     /**

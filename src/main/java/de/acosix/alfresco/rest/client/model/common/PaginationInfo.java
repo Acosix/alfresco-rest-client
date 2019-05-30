@@ -32,6 +32,29 @@ public class PaginationInfo
     private boolean hasMoreItems;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public PaginationInfo()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public PaginationInfo(final PaginationInfo reference)
+    {
+        this.count = reference.getCount();
+        this.skipCount = reference.getSkipCount();
+        this.maxItems = reference.getMaxItems();
+        this.totalItems = reference.getTotalItems();
+        this.hasMoreItems = reference.getHasMoreItems();
+    }
+
+    /**
      * @return the count
      */
     public int getCount()

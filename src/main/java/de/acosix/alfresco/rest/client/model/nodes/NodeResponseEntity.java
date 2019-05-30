@@ -58,6 +58,65 @@ public class NodeResponseEntity extends CommonNodeEntity<ResponsePermissionsInfo
     private PathInfo path;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public NodeResponseEntity()
+    {
+        super();
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public NodeResponseEntity(final NodeResponseEntity reference)
+    {
+        super(reference);
+
+        this.id = reference.getId();
+        this.isFolder = reference.getIsFolder();
+        this.isFile = reference.getIsFile();
+        this.isLocked = reference.getIsLocked();
+        this.isLink = reference.getIsLink();
+        this.isFavorite = reference.getIsFavorite();
+        this.createdAt = reference.getCreatedAt();
+        final UserInfo createdByUser = reference.getCreatedByUser();
+        if (createdByUser != null)
+        {
+            this.createdByUser = new UserInfo(createdByUser);
+        }
+
+        this.modifiedAt = reference.getModifiedAt();
+        final UserInfo modifiedByUser = reference.getModifiedByUser();
+        if (modifiedByUser != null)
+        {
+            this.modifiedByUser = new UserInfo(modifiedByUser);
+        }
+
+        this.parentId = reference.getParentId();
+
+        final ContentInfo content = reference.getContent();
+        if (content != null)
+        {
+            this.content = new ContentInfo(content);
+        }
+
+        final List<String> allowableOperations = reference.getAllowableOperations();
+        if (allowableOperations != null)
+        {
+            this.allowableOperations = new ArrayList<>(allowableOperations);
+        }
+
+        final PathInfo path = reference.getPath();
+        if (path != null)
+        {
+            this.path = new PathInfo(path);
+        }
+    }
+
+    /**
      * @return the id
      */
     public String getId()

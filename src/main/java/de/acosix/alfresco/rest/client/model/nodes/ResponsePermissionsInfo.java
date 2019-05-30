@@ -29,6 +29,38 @@ public class ResponsePermissionsInfo extends PermissionsInfo
     private List<String> settable;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public ResponsePermissionsInfo()
+    {
+        super();
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public ResponsePermissionsInfo(final ResponsePermissionsInfo reference)
+    {
+        super(reference);
+
+        final List<PermissionElement> inherited = reference.getInherited();
+        if (inherited != null)
+        {
+            this.inherited = new ArrayList<>(inherited.size());
+            inherited.stream().map(PermissionElement::new).forEach(this.inherited::add);
+        }
+
+        final List<String> settable = reference.getSettable();
+        if (settable != null)
+        {
+            this.settable = new ArrayList<>(settable);
+        }
+    }
+
+    /**
      * @return the inherited
      */
     public List<PermissionElement> getInherited()

@@ -25,9 +25,32 @@ import de.acosix.alfresco.rest.client.jackson.Wrapped.WrapType;
 public class ChildNodeResponseEntity extends NodeResponseEntity
 {
 
-    // TODO copy constructors
-
     private ChildAssociationResponseEntity association;
+
+    /**
+     * Creates a new instance of this value class.
+     */
+    public ChildNodeResponseEntity()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public ChildNodeResponseEntity(final ChildNodeResponseEntity reference)
+    {
+        super(reference);
+
+        final ChildAssociationResponseEntity association = reference.getAssociation();
+        if (association != null)
+        {
+            this.association = new ChildAssociationResponseEntity(association);
+        }
+    }
 
     /**
      * @return the association

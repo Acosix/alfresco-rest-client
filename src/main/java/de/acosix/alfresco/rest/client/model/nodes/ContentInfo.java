@@ -30,6 +30,28 @@ public class ContentInfo
     private String encoding;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public ContentInfo()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public ContentInfo(final ContentInfo reference)
+    {
+        this.mimeType = reference.getMimeType();
+        this.mimeTypeName = reference.getMimeTypeName();
+        this.sizeInBytes = reference.getSizeInBytes();
+        this.encoding = reference.getEncoding();
+    }
+
+    /**
      * @return the mimeType
      */
     public String getMimeType()

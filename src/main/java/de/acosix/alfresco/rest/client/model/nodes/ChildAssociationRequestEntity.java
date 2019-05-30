@@ -24,6 +24,25 @@ public class ChildAssociationRequestEntity extends AssociationTypeEntity
     private String childId;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public ChildAssociationRequestEntity()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public ChildAssociationRequestEntity(final ChildAssociationRequestEntity reference)
+    {
+        this.childId = reference.getChildId();
+    }
+
+    /**
      * @return the childId
      */
     public String getChildId()

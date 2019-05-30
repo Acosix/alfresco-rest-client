@@ -24,6 +24,25 @@ public class TargetAssociationEntity extends AssociationTypeEntity
     private String targetId;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public TargetAssociationEntity()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public TargetAssociationEntity(final TargetAssociationEntity reference)
+    {
+        this.targetId = reference.getTargetId();
+    }
+
+    /**
      * @return the targetId
      */
     public String getTargetId()

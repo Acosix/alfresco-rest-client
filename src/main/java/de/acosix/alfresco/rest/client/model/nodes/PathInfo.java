@@ -24,13 +24,37 @@ import java.util.List;
 public class PathInfo
 {
 
-    // TODO copy constructors
-
     private String name;
 
     private Boolean isComplete;
 
     private List<PathNodeEntity> elements;
+
+    /**
+     * Creates a new instance of this value class.
+     */
+    public PathInfo()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public PathInfo(final PathInfo reference)
+    {
+        this.name = reference.getName();
+        this.isComplete = reference.getIsComplete();
+        final List<PathNodeEntity> elements = reference.getElements();
+        if (elements != null)
+        {
+            this.elements = new ArrayList<>(elements.size());
+            elements.stream().map(PathNodeEntity::new).forEach(this.elements::add);
+        }
+    }
 
     /**
      * @return the name

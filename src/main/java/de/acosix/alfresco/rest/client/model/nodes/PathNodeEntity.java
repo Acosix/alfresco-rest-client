@@ -21,9 +21,27 @@ package de.acosix.alfresco.rest.client.model.nodes;
 public class PathNodeEntity extends NodeCoreIdentity
 {
 
-    // TODO copy constructors
-
     private String id;
+
+    /**
+     * Creates a new instance of this value class.
+     */
+    public PathNodeEntity()
+    {
+        super();
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public PathNodeEntity(final PathNodeEntity reference)
+    {
+        super(reference);
+        this.id = reference.getId();
+    }
 
     /**
      * @return the id

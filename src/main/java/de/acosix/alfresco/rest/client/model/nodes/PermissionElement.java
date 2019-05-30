@@ -44,6 +44,27 @@ public class PermissionElement
     private AccessStatus accessStatus;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public PermissionElement()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public PermissionElement(final PermissionElement reference)
+    {
+        this.authorityId = reference.getAuthorityId();
+        this.name = reference.getName();
+        this.accessStatus = reference.getAccessStatus();
+    }
+
+    /**
      * @return the authorityId
      */
     public String getAuthorityId()

@@ -16,6 +16,7 @@
 package de.acosix.alfresco.rest.client.model.common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,6 +65,22 @@ public class MultiValuedParam<T>
             throw new IllegalArgumentException("'values' must not be null");
         }
         this.values = new ArrayList<>(values);
+    }
+
+    /**
+     * Creates a new instance from the provided list of values.
+     *
+     * @param values
+     *            the list of values to wrap
+     */
+    @SafeVarargs
+    public MultiValuedParam(final T... values)
+    {
+        if (values == null)
+        {
+            throw new IllegalArgumentException("'values' must not be null");
+        }
+        this.values = new ArrayList<>(Arrays.asList(values));
     }
 
     /**

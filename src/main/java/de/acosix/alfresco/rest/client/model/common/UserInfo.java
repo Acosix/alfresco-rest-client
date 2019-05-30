@@ -26,6 +26,26 @@ public class UserInfo
     private String displayName;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public UserInfo()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public UserInfo(final UserInfo reference)
+    {
+        this.id = reference.getId();
+        this.displayName = reference.getDisplayName();
+    }
+
+    /**
      * @return the id
      */
     public String getId()

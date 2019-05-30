@@ -34,6 +34,26 @@ public class TicketEntity
     private String userId;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public TicketEntity()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public TicketEntity(final TicketEntity reference)
+    {
+        this.id = reference.getId();
+        this.userId = reference.getUserId();
+    }
+
+    /**
      * @return the id
      */
     public String getId()

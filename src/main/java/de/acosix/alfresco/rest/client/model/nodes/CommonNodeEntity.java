@@ -15,6 +15,8 @@
  */
 package de.acosix.alfresco.rest.client.model.nodes;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +26,57 @@ import java.util.Map;
 public class CommonNodeEntity<PI extends PermissionsInfo> extends NodeCoreIdentity
 {
 
-    // TODO copy constructors
-
     private Map<String, Object> properties;
 
     private PI permissions;
+
+    /**
+     * Creates a new instance of this value class.
+     */
+    public CommonNodeEntity()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full copy of the provided reference / template. All state - except for the values of
+     * properties - will be recursively copied to create a best possible detached copy.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public CommonNodeEntity(final CommonNodeEntity<PI> reference)
+    {
+        super(reference);
+
+        final Map<String, Object> properties = reference.getProperties();
+        if (properties != null)
+        {
+            this.properties = new HashMap<>(properties);
+        }
+
+        // due to generics we cannot handle copy of permissions other than via reflection
+        final PI permissions = reference.getPermissions();
+        if (permissions != null)
+        {
+            @SuppressWarnings("unchecked")
+            final Class<PI> permClass = (Class<PI>) permissions.getClass();
+            try
+            {
+                final Constructor<PI> copyConstructor = permClass.getConstructor(permClass);
+                this.permissions = copyConstructor.newInstance(permissions);
+            }
+            catch (final NoSuchMethodException nsme)
+            {
+                throw new UnsupportedOperationException(
+                        "Cannot create copy as permissions info class " + permClass + " does not define a copy-constructor");
+            }
+            catch (final IllegalAccessException | InstantiationException | InvocationTargetException ite)
+            {
+                throw new RuntimeException("Failed to copy permissions info", ite);
+            }
+        }
+    }
 
     /**
      * @return the properties

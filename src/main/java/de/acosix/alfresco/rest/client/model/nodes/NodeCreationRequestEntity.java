@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class NodeCreationRequestEntity extends CommonNodeEntity<PermissionsInfo>
 {
-    // TODO copy constructors
 
     private String relativePath;
 
@@ -32,6 +31,47 @@ public class NodeCreationRequestEntity extends CommonNodeEntity<PermissionsInfo>
     private List<ChildAssociationRequestEntity> secondaryChildren;
 
     private List<TargetAssociationEntity> targets;
+
+    /**
+     * Creates a new instance of this value class.
+     */
+    public NodeCreationRequestEntity()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public NodeCreationRequestEntity(final NodeCreationRequestEntity reference)
+    {
+        super(reference);
+
+        this.relativePath = reference.getRelativePath();
+
+        final AssociationTypeEntity association = reference.getAssociation();
+        if (association != null)
+        {
+            this.association = new AssociationTypeEntity(association);
+        }
+
+        final List<ChildAssociationRequestEntity> secondaryChildren = reference.getSecondaryChildren();
+        if (secondaryChildren != null)
+        {
+            this.secondaryChildren = new ArrayList<>(secondaryChildren.size());
+            secondaryChildren.stream().map(ChildAssociationRequestEntity::new).forEach(this.secondaryChildren::add);
+        }
+
+        final List<TargetAssociationEntity> targets = reference.getTargets();
+        if (targets != null)
+        {
+            this.targets = new ArrayList<>(targets.size());
+            targets.stream().map(TargetAssociationEntity::new).forEach(this.targets::add);
+        }
+    }
 
     /**
      * @return the relativePath

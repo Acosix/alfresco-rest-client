@@ -21,15 +21,24 @@ package de.acosix.alfresco.rest.client.model.nodes;
 public class ChildAssociationResponseEntity extends AssociationTypeEntity
 {
 
+    /**
+     * Creates a new instance of this value class.
+     */
     public ChildAssociationResponseEntity()
     {
-        // DEFAULT
+        super();
     }
 
-    public ChildAssociationResponseEntity(final ChildAssociationResponseEntity template)
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public ChildAssociationResponseEntity(final ChildAssociationResponseEntity reference)
     {
-        super(template);
-        this.isPrimary = template.isPrimary;
+        super(reference);
+        this.isPrimary = reference.isPrimary;
     }
 
     private boolean isPrimary;

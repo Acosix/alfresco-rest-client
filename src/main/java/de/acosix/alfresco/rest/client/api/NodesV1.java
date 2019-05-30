@@ -823,6 +823,12 @@ public interface NodesV1
      *            the raw stream to provide the content
      * @param contentType
      *            the mimetype of the content - this parameter must comply with the value syntax of the HTTP header "Content-Type"
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
      * @return the details of the updated node
      */
     @PUT
@@ -875,8 +881,8 @@ public interface NodesV1
      * @param majorVersion
      *            {@code true} if this operation should result in the creation of a major version, {@code false} if it should create a minor
      *            version
-     * @param the
-     *            comment to set in the new version
+     * @param comment
+     *            the comment to set in the new version
      * @param include
      *            the list of optional fields / information to include in the response
      * @param fields

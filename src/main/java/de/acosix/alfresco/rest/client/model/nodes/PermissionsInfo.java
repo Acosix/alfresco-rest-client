@@ -29,6 +29,31 @@ public class PermissionsInfo
     private List<PermissionElement> locallySet;
 
     /**
+     * Creates a new instance of this value class.
+     */
+    public PermissionsInfo()
+    {
+        // NO-OP
+    }
+
+    /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template.
+     *
+     * @param reference
+     *            the reference / template for the new instance
+     */
+    public PermissionsInfo(final PermissionsInfo reference)
+    {
+        this.isInheritanceEnabled = reference.getIsInheritanceEnabled();
+        final List<PermissionElement> locallySet = reference.getLocallySet();
+        if (locallySet != null)
+        {
+            this.locallySet = new ArrayList<>(locallySet.size());
+            locallySet.stream().map(PermissionElement::new).forEach(this.locallySet::add);
+        }
+    }
+
+    /**
      * @return the isInheritanceEnabled
      */
     public Boolean getIsInheritanceEnabled()
@@ -61,5 +86,4 @@ public class PermissionsInfo
     {
         this.locallySet = locallySet != null ? new ArrayList<>(locallySet) : null;
     }
-
 }
