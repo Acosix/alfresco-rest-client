@@ -36,6 +36,7 @@ import de.acosix.alfresco.rest.client.model.common.Sort;
 import de.acosix.alfresco.rest.client.model.nodes.ChildNodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.CommonNodeEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeCreationRequestEntity;
+import de.acosix.alfresco.rest.client.model.nodes.NodeLockRequestEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeSortField;
 import de.acosix.alfresco.rest.client.model.nodes.PaginatedNodeChildrenList;
@@ -898,4 +899,72 @@ public interface NodesV1
     NodeResponseEntity setContent(@PathParam("nodeId") String nodeId, InputStream content, @HeaderParam("Content-Type") String contentType,
             @QueryParam("name") String name, @QueryParam("majorVersion") boolean majorVersion, @QueryParam("comment") String comment,
             @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
+
+    /**
+     * Locks a (content) node.
+     *
+     * @param nodeId
+     *            the ID of the node to lock
+     * @param nodeLock
+     *            the details of the lock to apply
+     * @return the details of the locked node
+     */
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/{nodeId}/lock")
+    NodeResponseEntity lockNode(@PathParam("nodeId") String nodeId, NodeLockRequestEntity nodeLock);
+
+    /**
+     * Locks a (content) node.
+     *
+     * @param nodeId
+     *            the ID of the node to lock
+     * @param nodeLock
+     *            the details of the lock to apply
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
+     * @return the details of the locked node
+     */
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/{nodeId}/lock")
+    NodeResponseEntity lockNode(@PathParam("nodeId") String nodeId, NodeLockRequestEntity nodeLock,
+            @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
+
+    /**
+     * Unlocks a (content) node.
+     *
+     * @param nodeId
+     *            the ID of the node to lock
+     * @return the details of the node
+     */
+    @POST
+    @Produces("application/json")
+    @Path("/{nodeId}/unlock")
+    NodeResponseEntity unlockNode(@PathParam("nodeId") String nodeId);
+
+    /**
+     * Unlocks a (content) node.
+     *
+     * @param nodeId
+     *            the ID of the node to lock
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
+     * @return the details of the node
+     */
+    @POST
+    @Produces("application/json")
+    @Path("/{nodeId}/unlock")
+    NodeResponseEntity unlockNode(@PathParam("nodeId") String nodeId, @QueryParam("include") MultiValuedParam<IncludeOption> include,
+            @QueryParam("fields") MultiValuedParam<String> fields);
 }
