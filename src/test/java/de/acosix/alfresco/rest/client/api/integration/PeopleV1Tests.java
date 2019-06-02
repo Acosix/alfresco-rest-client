@@ -15,7 +15,8 @@
  */
 package de.acosix.alfresco.rest.client.api.integration;
 
-import javax.ws.rs.NotAuthorizedException;
+import java.util.UUID;
+
 import javax.ws.rs.core.UriBuilder;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -25,7 +26,6 @@ import org.jboss.resteasy.client.jaxrs.internal.LocalResteasyProviderFactory;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,23 +36,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.acosix.alfresco.rest.client.api.AuthenticationV1;
+import de.acosix.alfresco.rest.client.api.PeopleV1;
 import de.acosix.alfresco.rest.client.jackson.RestAPIBeanDeserializerModifier;
 import de.acosix.alfresco.rest.client.jaxrs.BasicAuthenticationClientRequestFilter;
-import de.acosix.alfresco.rest.client.model.authentication.TicketEntity;
 import de.acosix.alfresco.rest.client.model.authentication.TicketRequest;
+import de.acosix.alfresco.rest.client.model.people.PersonRequestEntity;
+import de.acosix.alfresco.rest.client.model.people.PersonResponseEntity;
 
 /**
  * @author Axel Faust
  */
-public class AuthenticationV1Tests
+public class PeopleV1Tests
 {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
+    private BasicAuthenticationClientRequestFilter rqAuthFilter;
+
     private ResteasyWebTarget target;
 
     private AuthenticationV1 authenticationAPI;
+
+    private PeopleV1 peopleAPI;
 
     @Before
     public void setup()
@@ -71,55 +77,49 @@ public class AuthenticationV1Tests
         // will cause a warning regarding Jackson provider which is already registered
         RegisterBuiltin.register(resteasyProviderFactory);
 
+        this.rqAuthFilter = new BasicAuthenticationClientRequestFilter();
+
         final ResteasyClient client = new ResteasyClientBuilder().providerFactory(resteasyProviderFactory).build();
         this.target = client.target(UriBuilder.fromPath("http://localhost:8082/alfresco"));
+        this.target.register(this.rqAuthFilter);
 
         this.authenticationAPI = this.target.proxy(AuthenticationV1.class);
+        this.peopleAPI = this.target.proxy(PeopleV1.class);
     }
 
     @Test
-    public void loginAndVerify()
+    public void createNewPersonAndSelfChangePasswordWithReLogin()
     {
-        final TicketRequest rq = new TicketRequest();
-        rq.setUserId("admin");
-        rq.setPassword("admin");
+        this.rqAuthFilter.setUserName("admin");
+        this.rqAuthFilter.setAuthentication("admin");
 
-        final TicketEntity ticket = this.authenticationAPI.createTicket(rq);
+        final PersonRequestEntity newPersonRq = new PersonRequestEntity();
+        newPersonRq.setId(UUID.randomUUID().toString());
+        newPersonRq.setFirstName("Max");
+        newPersonRq.setLastName("Mustermann");
+        newPersonRq.setEmail("max.mustermann@beispiel.de");
+        newPersonRq.setPassword(UUID.randomUUID().toString());
 
-        Assert.assertNotNull("ticket", ticket);
-        Assert.assertNotNull("ticket.id", ticket.getId());
-        Assert.assertEquals("ticket.userId", "admin", ticket.getUserId());
+        final PersonResponseEntity createdPerson = this.peopleAPI.createPerson(newPersonRq);
 
-        final BasicAuthenticationClientRequestFilter rqAuthFilter = new BasicAuthenticationClientRequestFilter();
-        rqAuthFilter.setAuthentication(ticket.getId());
-        this.target.register(rqAuthFilter);
+        this.rqAuthFilter.setUserName(createdPerson.getId());
+        this.rqAuthFilter.setAuthentication(newPersonRq.getPassword());
 
-        this.authenticationAPI = this.target.proxy(AuthenticationV1.class);
+        final PersonRequestEntity pwChangeRq = new PersonRequestEntity();
+        pwChangeRq.setOldPassword(newPersonRq.getPassword());
+        pwChangeRq.setPassword(UUID.randomUUID().toString());
 
-        final TicketEntity validatedTicket = this.authenticationAPI.validateTicket();
+        this.peopleAPI.updatePerson("-me-", pwChangeRq);
 
-        Assert.assertEquals(ticket.getId(), validatedTicket.getId());
-        // getUserId() is typically not set on validated ticket, so no point in validating
+        this.rqAuthFilter.setUserName(null);
+        this.rqAuthFilter.setAuthentication(null);
+
+        final TicketRequest loginRq = new TicketRequest();
+        loginRq.setUserId(createdPerson.getId());
+        loginRq.setPassword(pwChangeRq.getPassword());
+
+        this.authenticationAPI.createTicket(loginRq);
     }
 
-    @Test
-    public void loginDeleteAndVerify()
-    {
-        final TicketRequest rq = new TicketRequest();
-        rq.setUserId("admin");
-        rq.setPassword("admin");
-
-        final TicketEntity ticket = this.authenticationAPI.createTicket(rq);
-
-        final BasicAuthenticationClientRequestFilter rqAuthFilter = new BasicAuthenticationClientRequestFilter();
-        rqAuthFilter.setAuthentication(ticket.getId());
-        this.target.register(rqAuthFilter);
-
-        this.authenticationAPI = this.target.proxy(AuthenticationV1.class);
-
-        this.authenticationAPI.deleteTicket();
-
-        this.expectedException.expect(NotAuthorizedException.class);
-        this.authenticationAPI.validateTicket();
-    }
+    // TODO Additional tests
 }

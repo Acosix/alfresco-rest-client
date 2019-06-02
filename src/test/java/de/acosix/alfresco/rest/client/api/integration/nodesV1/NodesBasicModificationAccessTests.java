@@ -37,8 +37,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,7 +56,6 @@ import de.acosix.alfresco.rest.client.resteasy.MultiValuedParamConverterProvider
 /**
  * @author Axel Faust
  */
-@RunWith(BlockJUnit4ClassRunner.class)
 public class NodesBasicModificationAccessTests
 {
 
