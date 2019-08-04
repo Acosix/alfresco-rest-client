@@ -29,10 +29,11 @@ import de.acosix.alfresco.rest.client.model.common.MultiValuedParam;
 import de.acosix.alfresco.rest.client.model.common.PaginatedList;
 import de.acosix.alfresco.rest.client.model.common.Sort;
 import de.acosix.alfresco.rest.client.model.sites.SiteContainerResponseEntity;
+import de.acosix.alfresco.rest.client.model.sites.SiteCreationRequestEntity;
 import de.acosix.alfresco.rest.client.model.sites.SiteRelation;
-import de.acosix.alfresco.rest.client.model.sites.SiteRequestEntity;
 import de.acosix.alfresco.rest.client.model.sites.SiteResponseEntity;
 import de.acosix.alfresco.rest.client.model.sites.SiteSortField;
+import de.acosix.alfresco.rest.client.model.sites.SiteUpdateRequestEntity;
 
 /**
  * Instances of this API provide operations to work with sites and associated structures.
@@ -202,7 +203,7 @@ public interface SitesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/sites")
-    SiteResponseEntity createSite(SiteRequestEntity site);
+    SiteResponseEntity createSite(SiteCreationRequestEntity site);
 
     /**
      * Creates a new site.
@@ -223,7 +224,7 @@ public interface SitesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/sites")
-    SiteResponseEntity createSite(SiteRequestEntity site, @QueryParam("skipConfiguration") boolean skipConfiguration,
+    SiteResponseEntity createSite(SiteCreationRequestEntity site, @QueryParam("skipConfiguration") boolean skipConfiguration,
             @QueryParam("skipAddToFavorites") boolean skipAddToFavorites, @QueryParam("fields") MultiValuedParam<String> fields);
 
     /**
@@ -295,7 +296,7 @@ public interface SitesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/sites/{siteId}")
-    SiteResponseEntity updateSite(@PathParam("siteId") String siteId, SiteRequestEntity site);
+    SiteResponseEntity updateSite(@PathParam("siteId") String siteId, SiteUpdateRequestEntity site);
 
     /**
      * Updates a site.
@@ -315,7 +316,7 @@ public interface SitesV1
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/site/{siteId}")
-    SiteResponseEntity updateSite(@PathParam("siteId") String siteId, SiteRequestEntity site,
+    SiteResponseEntity updateSite(@PathParam("siteId") String siteId, SiteUpdateRequestEntity site,
             @QueryParam("fields") MultiValuedParam<String> fields);
 
     /**

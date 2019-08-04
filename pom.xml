@@ -319,6 +319,16 @@
                     </executions>
                     <configuration>
                         <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                        <volumes>
+                            <volume>
+                                <name>${project.artifactId}-postgresql-test</name>
+                                <driver>local</driver>
+                            </volume>
+                            <volume>
+                                <name>${project.artifactId}-repository-test-contentstore</name>
+                                <driver>local</driver>
+                            </volume>
+                        </volumes>
                         <images>
                             <image>
                                 <name>postgres:10.1</name>
@@ -336,6 +346,11 @@
                                         <name>${project.artifactId}-test</name>
                                         <alias>postgres</alias>
                                     </network>
+                                    <volumes>
+                                        <bind>
+                                            <volume>${project.artifactId}-postgresql-test:/var/lib/postgresql/data</volume>
+                                        </bind>
+                                    </volumes>
                                 </run>
                             </image>
                             <image>
@@ -351,6 +366,7 @@
                                             -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
                                             -Dcsrf.filter.enabled=false
                                             -Dmessaging.subsystem.autoStart=false
+                                            -Devents.subsystem.autoStart=false
                                             -Xms1g -Xmx1g
                                         ]]></JAVA_OPTS>
                                     </env>
@@ -362,6 +378,11 @@
                                         <name>${project.artifactId}-test</name>
                                         <alias>repository</alias>
                                     </network>
+                                    <volumes>
+                                        <bind>
+                                            <volume>${project.artifactId}-repository-test-contentstore:/usr/local/tomcat/alf_data</volume>
+                                        </bind>
+                                    </volumes>
                                     <dependsOn>
                                         <container>postgres</container>
                                     </dependsOn>

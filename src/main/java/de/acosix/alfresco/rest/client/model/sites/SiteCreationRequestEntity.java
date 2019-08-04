@@ -18,13 +18,15 @@ package de.acosix.alfresco.rest.client.model.sites;
 /**
  * @author Axel Faust
  */
-public class SiteRequestEntity extends CoreSiteDetails
+public class SiteCreationRequestEntity extends CoreSiteDetails
 {
+
+    private String id;
 
     /**
      * Creates a new instance of this value class.
      */
-    public SiteRequestEntity()
+    public SiteCreationRequestEntity()
     {
         // NO-OP
     }
@@ -36,8 +38,26 @@ public class SiteRequestEntity extends CoreSiteDetails
      * @param reference
      *            the reference / template for the new instance
      */
-    public SiteRequestEntity(final SiteRequestEntity reference)
+    public SiteCreationRequestEntity(final SiteCreationRequestEntity reference)
     {
         super(reference);
+        this.id = reference.getId();
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId()
+    {
+        return this.id;
+    }
+
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(final String id)
+    {
+        this.id = id;
     }
 }

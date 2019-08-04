@@ -21,15 +21,11 @@ package de.acosix.alfresco.rest.client.model.sites;
 public class CoreSiteDetails
 {
 
-    private String id;
-
     private String title;
 
     private String description;
 
     private SiteVisibility visibility;
-
-    private String preset;
 
     /**
      * Creates a new instance of this value class.
@@ -48,28 +44,9 @@ public class CoreSiteDetails
      */
     public CoreSiteDetails(final CoreSiteDetails reference)
     {
-        this.id = reference.getId();
         this.title = reference.getTitle();
         this.description = reference.getDescription();
         this.visibility = reference.getVisibility();
-        this.preset = reference.getPreset();
-    }
-
-    /**
-     * @return the id
-     */
-    public String getId()
-    {
-        return this.id;
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(final String id)
-    {
-        this.id = id;
     }
 
     /**
@@ -121,23 +98,6 @@ public class CoreSiteDetails
     public void setVisibility(final SiteVisibility visibility)
     {
         this.visibility = visibility;
-    }
-
-    /**
-     * @return the preset
-     */
-    public String getPreset()
-    {
-        return this.preset;
-    }
-
-    /**
-     * @param preset
-     *            the preset to set
-     */
-    public void setPreset(final String preset)
-    {
-        this.preset = preset;
     }
 
 }

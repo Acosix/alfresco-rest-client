@@ -27,6 +27,10 @@ public class SiteResponseEntity extends CoreSiteDetails
 
     private String guid;
 
+    private String id;
+
+    private String preset;
+
     private String role;
 
     /**
@@ -48,6 +52,8 @@ public class SiteResponseEntity extends CoreSiteDetails
     {
         super(reference);
         this.guid = reference.getGuid();
+        this.id = reference.getId();
+        this.preset = reference.getPreset();
         this.role = reference.getRole();
     }
 
@@ -66,6 +72,40 @@ public class SiteResponseEntity extends CoreSiteDetails
     public void setGuid(final String guid)
     {
         this.guid = guid;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId()
+    {
+        return this.id;
+    }
+
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(final String id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * @return the preset
+     */
+    public String getPreset()
+    {
+        return this.preset;
+    }
+
+    /**
+     * @param preset
+     *            the preset to set
+     */
+    public void setPreset(final String preset)
+    {
+        this.preset = preset;
     }
 
     /**
