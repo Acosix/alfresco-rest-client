@@ -180,7 +180,6 @@ public interface NodesV1
      *
      * @param nodeId
      *            the ID of the node to delete
-     *
      */
     @DELETE
     @Path("/{nodeId}")
@@ -193,7 +192,6 @@ public interface NodesV1
      *            the ID of the node to delete
      * @param permanent
      *            {@code true} if the node should be deleted permanently (not moved into the archive / trash can), {@code false} otherwise
-     *
      */
     @DELETE
     @Path("/{nodeId}")

@@ -13,36 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.acosix.alfresco.rest.client.model.people;
-
-import de.acosix.alfresco.rest.client.model.common.SortField;
+package de.acosix.alfresco.rest.client.model.sites;
 
 /**
- * This enumeration specifies the supported fields by which people may be sorted.
- *
  * @author Axel Faust
  */
-public enum PersonSortField implements SortField
+public class SiteRequestEntity extends CoreSiteDetails
 {
-    ID("id"),
-    FIRST_NAME("firstName"),
-    LAST_NAME("lastName");
 
-    private final String fieldName;
-
-    private PersonSortField(final String fieldName)
+    /**
+     * Creates a new instance of this value class.
+     */
+    public SiteRequestEntity()
     {
-        this.fieldName = fieldName;
+        // NO-OP
     }
 
     /**
+     * Creates a new instance of this value class as a full (recursive) copy of the provided reference / template. All state will be copied
+     * to create a best possible detached copy.
      *
-     * {@inheritDoc}
+     * @param reference
+     *            the reference / template for the new instance
      */
-    @Override
-    public String getFieldName()
+    public SiteRequestEntity(final SiteRequestEntity reference)
     {
-        return this.fieldName;
+        super(reference);
     }
-
 }

@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.acosix.alfresco.rest.client.model.people;
+package de.acosix.alfresco.rest.client.model.sites;
 
 import de.acosix.alfresco.rest.client.model.common.SortField;
 
 /**
- * This enumeration specifies the supported fields by which people may be sorted.
+ * This enumeration specifies the supported relations which can be loaded with a site.
  *
  * @author Axel Faust
  */
-public enum PersonSortField implements SortField
+public enum SiteRelation implements SortField
 {
-    ID("id"),
-    FIRST_NAME("firstName"),
-    LAST_NAME("lastName");
+    CONTAINERS("container"),
+    MEMBERS("members");
 
     private final String fieldName;
 
-    private PersonSortField(final String fieldName)
+    private SiteRelation(final String fieldName)
     {
         this.fieldName = fieldName;
     }

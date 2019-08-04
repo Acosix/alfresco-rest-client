@@ -27,10 +27,10 @@ import javax.ws.rs.QueryParam;
 import de.acosix.alfresco.rest.client.model.common.MultiValuedParam;
 import de.acosix.alfresco.rest.client.model.common.PaginatedList;
 import de.acosix.alfresco.rest.client.model.common.Sort;
-import de.acosix.alfresco.rest.client.model.nodes.NodeSortField;
 import de.acosix.alfresco.rest.client.model.people.CommonPersonDetails;
 import de.acosix.alfresco.rest.client.model.people.PersonRequestEntity;
 import de.acosix.alfresco.rest.client.model.people.PersonResponseEntity;
+import de.acosix.alfresco.rest.client.model.people.PersonSortField;
 
 /**
  * Instances of this API provide operations to work with people / user accounts.
@@ -123,7 +123,7 @@ public interface PeopleV1
     @Produces("application/json")
     @Path("/people")
     PaginatedList<PersonResponseEntity> getPeople(@QueryParam("skipCount") int skipCount, @QueryParam("maxItems") int maxItems,
-            @QueryParam("orderBy") MultiValuedParam<Sort<NodeSortField>> orderBy);
+            @QueryParam("orderBy") MultiValuedParam<Sort<PersonSortField>> orderBy);
 
     /**
      * Retrieves the list of people / user accounts from the Alfresco instance using the provided pagination and sort order.
@@ -146,12 +146,14 @@ public interface PeopleV1
     @Produces("application/json")
     @Path("/people")
     PaginatedList<PersonResponseEntity> getPeople(@QueryParam("skipCount") int skipCount, @QueryParam("maxItems") int maxItems,
-            @QueryParam("orderBy") MultiValuedParam<Sort<NodeSortField>> orderBy,
+            @QueryParam("orderBy") MultiValuedParam<Sort<PersonSortField>> orderBy,
             @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
 
     /**
      * Creates a new person / user account.
      *
+     * @param person
+     *            the person to create
      * @return the created person / user account
      */
     @POST
@@ -163,6 +165,8 @@ public interface PeopleV1
     /**
      * Creates a new person / user account.
      *
+     * @param person
+     *            the person to create
      * @param fields
      *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
      *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated

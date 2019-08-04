@@ -13,36 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.acosix.alfresco.rest.client.model.people;
-
-import de.acosix.alfresco.rest.client.model.common.SortField;
+package de.acosix.alfresco.rest.client.model.sites;
 
 /**
- * This enumeration specifies the supported fields by which people may be sorted.
+ * This enumeration specifies the supported site visiblity values.
  *
  * @author Axel Faust
  */
-public enum PersonSortField implements SortField
+public enum SiteVisibility
 {
-    ID("id"),
-    FIRST_NAME("firstName"),
-    LAST_NAME("lastName");
-
-    private final String fieldName;
-
-    private PersonSortField(final String fieldName)
-    {
-        this.fieldName = fieldName;
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public String getFieldName()
-    {
-        return this.fieldName;
-    }
-
+    PUBLIC,
+    MODERATED,
+    PRIVATE;
 }
