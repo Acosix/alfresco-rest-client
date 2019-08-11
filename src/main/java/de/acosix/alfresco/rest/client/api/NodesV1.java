@@ -35,6 +35,7 @@ import de.acosix.alfresco.rest.client.model.common.PaginatedList;
 import de.acosix.alfresco.rest.client.model.common.Sort;
 import de.acosix.alfresco.rest.client.model.nodes.ChildNodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.CommonNodeEntity;
+import de.acosix.alfresco.rest.client.model.nodes.NodeCopyMoveRequestEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeCreationRequestEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeLockRequestEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeResponseEntity;
@@ -899,7 +900,7 @@ public interface NodesV1
             @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
 
     /**
-     * Locks a (content) node.
+     * Locks a node.
      *
      * @param nodeId
      *            the ID of the node to lock
@@ -914,7 +915,7 @@ public interface NodesV1
     NodeResponseEntity lockNode(@PathParam("nodeId") String nodeId, NodeLockRequestEntity nodeLock);
 
     /**
-     * Locks a (content) node.
+     * Locks a node.
      *
      * @param nodeId
      *            the ID of the node to lock
@@ -936,7 +937,7 @@ public interface NodesV1
             @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
 
     /**
-     * Unlocks a (content) node.
+     * Unlocks a node.
      *
      * @param nodeId
      *            the ID of the node to lock
@@ -948,7 +949,7 @@ public interface NodesV1
     NodeResponseEntity unlockNode(@PathParam("nodeId") String nodeId);
 
     /**
-     * Unlocks a (content) node.
+     * Unlocks a node.
      *
      * @param nodeId
      *            the ID of the node to lock
@@ -965,4 +966,78 @@ public interface NodesV1
     @Path("/{nodeId}/unlock")
     NodeResponseEntity unlockNode(@PathParam("nodeId") String nodeId, @QueryParam("include") MultiValuedParam<IncludeOption> include,
             @QueryParam("fields") MultiValuedParam<String> fields);
+
+    /**
+     * Copies a node.
+     *
+     * @param nodeId
+     *            the ID of the node to move
+     * @param nodeCopy
+     *            the copy target details
+     * @return the details of the copy
+     */
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/{nodeId}/copy")
+    NodeResponseEntity copyNode(@PathParam("nodeId") String nodeId, NodeCopyMoveRequestEntity nodeCopy);
+
+    /**
+     * Copies a node.
+     *
+     * @param nodeId
+     *            the ID of the node to copy
+     * @param nodeCopy
+     *            the copy target details
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
+     * @return the details of the copy
+     */
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/{nodeId}/copy")
+    NodeResponseEntity copyNode(@PathParam("nodeId") String nodeId, NodeCopyMoveRequestEntity nodeCopy,
+            @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
+
+    /**
+     * Moves a node, potentially renaming it in the process.
+     *
+     * @param nodeId
+     *            the ID of the node to move
+     * @param nodeMove
+     *            the move target details
+     * @return the details of the moved node
+     */
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/{nodeId}/move")
+    NodeResponseEntity moveNode(@PathParam("nodeId") String nodeId, NodeCopyMoveRequestEntity nodeMove);
+
+    /**
+     * Moves a node, potentially renaming it in the process.
+     *
+     * @param nodeId
+     *            the ID of the node to move
+     * @param nodeMove
+     *            the move target details
+     * @param include
+     *            the list of optional fields / information to include in the response
+     * @param fields
+     *            the list of fields to which to restrict the response in order to save bandwidth ({@code include} adds to this list if
+     *            provided) - should be {@code null} if no restrictions should be applied as an empty list / multi-valued param is treated
+     *            as "include no fields at all"
+     * @return the details of the moved node
+     */
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/{nodeId}/move")
+    NodeResponseEntity MoveNode(@PathParam("nodeId") String nodeId, NodeCopyMoveRequestEntity nodeMove,
+            @QueryParam("include") MultiValuedParam<IncludeOption> include, @QueryParam("fields") MultiValuedParam<String> fields);
 }
