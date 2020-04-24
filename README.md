@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Acosix/alfresco-audit.svg?branch=master)](https://travis-ci.org/Acosix/alfresco-rest-client)
+[![Build Status](https://travis-ci.org/Acosix/alfresco-rest-client.svg?branch=master)](https://travis-ci.org/Acosix/alfresco-rest-client)
 
 # About
 
