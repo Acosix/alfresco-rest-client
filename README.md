@@ -6,12 +6,18 @@ This library aims to provide some common interfaces / classes that could be used
 
 ```java
 ResteasyJackson2Provider resteasyJacksonProvider = new ResteasyJackson2Provider();
+
+SimpleModule module = new SimpleModule();
+module.setDeserializerModifier(new RestAPIBeanDeserializerModifier());
+
 ObjectMapper mapper = new ObjectMapper();
+mapper.registerModule(module);
 mapper.setSerializationInclusion(Include.NON_EMPTY);
 resteasyJacksonProvider.setMapper(mapper);
 
 LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(new ResteasyProviderFactory());
 resteasyProviderFactory.register(resteasyJacksonProvider);
+resteasyProviderFactory.register(new MultiValuedParamConverterProvider());
 RegisterBuiltin.register(resteasyProviderFactory);
 
 String alfrescoBaseUrl = "https://example.com/alfresco";

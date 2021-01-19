@@ -26,7 +26,7 @@
 
     <groupId>de.acosix.alfresco.rest.client</groupId>
     <artifactId>de.acosix.alfresco.rest.client</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
 
     <name>Acosix Alfresco v1 ReST API Client</name>

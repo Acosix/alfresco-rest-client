@@ -86,7 +86,9 @@ public interface NodesV1
         /**
          * Include {@link NodeResponseEntity#getPermissions() permissions}
          */
-        PERMISSIONS("permissions");
+        PERMISSIONS("permissions"),
+
+        PROPERTIES("properties");
 
         private final String simpleName;
 
