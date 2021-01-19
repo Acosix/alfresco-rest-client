@@ -15,6 +15,7 @@
  */
 package de.acosix.alfresco.rest.client.api;
 
+import de.acosix.alfresco.rest.client.model.common.MultiValuedParam;
 import de.acosix.alfresco.rest.client.model.nodes.ChildNodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.PaginatedNodeChildrenList;
@@ -80,44 +81,9 @@ public interface QueriesV1 {
                                       @QueryParam("rootNodeId") String rootNodeId,
                                       @QueryParam("skipCount") Integer skipCount,
                                       @QueryParam("maxItems") Integer maxItems,
-                                      @QueryParam("query") String nodeType,
-                                      @QueryParam("include") List<String> include,
-                                      @QueryParam("orderBy") List<String> orderBy,
-                                      @QueryParam("fields") List<String> fields);
+                                      @QueryParam("nodeType") String nodeType,
+                                      @QueryParam("include") MultiValuedParam<String> include,
+                                      @QueryParam("orderBy") MultiValuedParam<String> orderBy,
+                                      @QueryParam("fields") MultiValuedParam<String> fields);
 
-    /**
-     * Note: this endpoint is available in Alfresco 5.2 and newer versions.
-     * <p>
-     * Gets a list of nodes that match the given search criteria(term, rootNodeId, include).
-     * <p>
-     * The search term is used to look for nodes that match against name, title, description, full text content or tags.
-     * <p>
-     * The search term:
-     * <p>
-     * - must contain a minimum of 3 alphanumeric characters
-     * - allows "quoted term"
-     * - can optionally use '*' for wildcard matching
-     * By default, file and folder types will be searched unless a specific type is provided as a query parameter.
-     * <p>
-     * By default, the search will be across the repository unless a specific root node id is provided to start the search from.
-     * <p>
-     *
-     * @param term       - The term to search for.
-     * @param rootNodeId - The id of the node to start the search from. Supports the aliases -my-, -root- and -shared-.
-     * @param include    - Returns additional information about the node. The following optional fields can be requested:
-     *                   allowableOperations
-     *                   aspectNames
-     *                   isLink
-     *                   isFavorite
-     *                   isLocked
-     *                   path
-     *                   properties
-     * @return the retrieved node in the detail requested
-     */
-    @GET
-    @Path("/nodes")
-    @Produces("application/json")
-    PaginatedNodeChildrenList queryNodes(@QueryParam("term") String term,
-                                      @QueryParam("rootNodeId") String rootNodeId,
-                                      @QueryParam("include") List<String> include);
 }
