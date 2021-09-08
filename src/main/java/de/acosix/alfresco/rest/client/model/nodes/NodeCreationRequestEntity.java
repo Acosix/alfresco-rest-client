@@ -28,7 +28,7 @@ public class NodeCreationRequestEntity extends CommonNodeEntity<PermissionsInfo>
 
     private AssociationTypeEntity association;
 
-    private List<ChildAssociationRequestEntity> secondaryChildren;
+    private List<ChildAssociationEntity> secondaryChildren;
 
     private List<TargetAssociationEntity> targets;
 
@@ -58,11 +58,11 @@ public class NodeCreationRequestEntity extends CommonNodeEntity<PermissionsInfo>
             this.association = new AssociationTypeEntity(association);
         }
 
-        final List<ChildAssociationRequestEntity> secondaryChildren = reference.getSecondaryChildren();
+        final List<ChildAssociationEntity> secondaryChildren = reference.getSecondaryChildren();
         if (secondaryChildren != null)
         {
             this.secondaryChildren = new ArrayList<>(secondaryChildren.size());
-            secondaryChildren.stream().map(ChildAssociationRequestEntity::new).forEach(this.secondaryChildren::add);
+            secondaryChildren.stream().map(ChildAssociationEntity::new).forEach(this.secondaryChildren::add);
         }
 
         final List<TargetAssociationEntity> targets = reference.getTargets();
@@ -110,7 +110,7 @@ public class NodeCreationRequestEntity extends CommonNodeEntity<PermissionsInfo>
     /**
      * @return the secondaryChildren
      */
-    public List<ChildAssociationRequestEntity> getSecondaryChildren()
+    public List<ChildAssociationEntity> getSecondaryChildren()
     {
         return this.secondaryChildren != null ? new ArrayList<>(this.secondaryChildren) : null;
     }
@@ -119,7 +119,7 @@ public class NodeCreationRequestEntity extends CommonNodeEntity<PermissionsInfo>
      * @param secondaryChildren
      *            the secondaryChildren to set
      */
-    public void setSecondaryChildren(final List<ChildAssociationRequestEntity> secondaryChildren)
+    public void setSecondaryChildren(final List<ChildAssociationEntity> secondaryChildren)
     {
         this.secondaryChildren = secondaryChildren != null ? new ArrayList<>(secondaryChildren) : null;
     }

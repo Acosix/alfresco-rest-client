@@ -15,10 +15,14 @@
  */
 package de.acosix.alfresco.rest.client.model.nodes;
 
+import de.acosix.alfresco.rest.client.jackson.Wrapped;
+import de.acosix.alfresco.rest.client.jackson.Wrapped.WrapType;
+
 /**
  * @author Axel Faust
  */
-public class ChildAssociationRequestEntity extends AssociationTypeEntity
+@Wrapped(WrapType.ENTRY)
+public class ChildAssociationEntity extends AssociationTypeEntity
 {
 
     private String childId;
@@ -26,7 +30,7 @@ public class ChildAssociationRequestEntity extends AssociationTypeEntity
     /**
      * Creates a new instance of this value class.
      */
-    public ChildAssociationRequestEntity()
+    public ChildAssociationEntity()
     {
         // NO-OP
     }
@@ -37,7 +41,7 @@ public class ChildAssociationRequestEntity extends AssociationTypeEntity
      * @param reference
      *            the reference / template for the new instance
      */
-    public ChildAssociationRequestEntity(final ChildAssociationRequestEntity reference)
+    public ChildAssociationEntity(final ChildAssociationEntity reference)
     {
         this.childId = reference.getChildId();
     }
