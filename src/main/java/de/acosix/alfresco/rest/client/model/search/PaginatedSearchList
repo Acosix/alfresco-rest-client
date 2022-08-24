@@ -1,0 +1,30 @@
+package de.acosix.alfresco.rest.client.model.search;
+
+import de.acosix.alfresco.rest.client.jackson.Wrapped;
+import de.acosix.alfresco.rest.client.jackson.Wrapped.WrapType;
+import de.acosix.alfresco.rest.client.model.common.PaginatedList;
+
+/**
+ * @author Walid Maadi
+ *
+ * @since 24/08/2022 - 10:28
+ */
+@Wrapped(WrapType.LIST)
+public class PaginatedSearchList extends PaginatedList<SearchResponseEntity> {
+
+    private Object context;
+
+    /**
+     * @return the context
+     */
+    public Object getContext() {
+        return context;
+    }
+
+    /**
+     * @param context the context to set
+     */
+    public void setContext(Object context) {
+        this.context = context;
+    }
+}
