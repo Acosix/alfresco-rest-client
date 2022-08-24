@@ -1,0 +1,37 @@
+package de.acosix.alfresco.rest.client.model.search;
+
+/**
+ * @author Walid Maadi
+ *
+ * @since 09/02/2022 - 10:47
+ */
+public class PagingEntity {
+
+    private int maxItems;
+    private int skipCount;
+
+    /**
+     * @return the maxItems
+     */
+    public int getMaxItems() {
+        return maxItems;
+    }
+    /**
+     * @param maxItems the maxItems to set
+     */
+    public void setMaxItems(int maxItems) {
+        this.maxItems = maxItems;
+    }
+    /**
+     * @return the skipCount
+     */
+    public int getSkipCount() {
+        return skipCount;
+    }
+    /**
+     * @param skipCount the skipCount to set
+     */
+    public void setSkipCount(int skipCount) {
+        this.skipCount = skipCount;
+    }
+}
