@@ -2,6 +2,7 @@ package de.acosix.alfresco.rest.client.model.search;
 
 /**
  * @author Walid Maadi
+ *
  * @since 24/08/2022 - 10:20
  */
 public class QueryEntity {
