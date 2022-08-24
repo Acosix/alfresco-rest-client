@@ -1,0 +1,32 @@
+package de.acosix.alfresco.rest.client.api;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
+import com.omerin.zod.rest.model.search.PaginatedSearchList;
+import com.omerin.zod.rest.model.search.SearchRequest;
+
+/**
+ * Instances of this API provide operations to execute search queries.
+ *
+ * @author Walid Maadi
+ *
+ * @since 24/08/2022 - 10:17
+ */
+@Path("/api/-default-/public/search/versions/1")
+public interface SearchV1 {
+
+    /**
+     * Execute a search query using alfresco V1 rest api 'search'
+     *
+     * @param queryRequest the query body containing query parameters
+     * @return the list of result entries
+     */
+    @Path("/search")
+    @POST
+    @Produces("application/json")
+    @Consumes("application/json")
+    PaginatedSearchList search(SearchRequest queryRequest);
+}
