@@ -3,7 +3,7 @@ package de.acosix.alfresco.rest.client.model.search;
 /**
  * @author Walid Maadi
  *
- * @since 09/02/2022 - 10:47
+ * @since 24/08/2022 - 10:27
  */
 public class PagingEntity {
 
