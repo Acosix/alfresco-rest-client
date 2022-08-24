@@ -1,0 +1,87 @@
+package de.acosix.alfresco.rest.client.model.search;
+
+/**
+ * @author Walid Maadi
+ *
+ * @since 24/08/2022 - 10:23
+ */
+public class SearchRequest {
+
+    private QueryEntity query;
+    private PagingEntity paging;
+    private String[] include;
+    private String[] fields;
+
+    public SearchRequest(final QueryEntity query) {
+        this.query = query;
+    }
+
+    public SearchRequest(final QueryEntity query, final PagingEntity paging) {
+        this.query = query;
+        this.paging = paging;
+    }
+
+    public SearchRequest(final QueryEntity query, final PagingEntity paging, String[] include, String[] fields) {
+        this.query = query;
+        this.paging = paging;
+        this.include = include;
+        this.fields = fields;
+    }
+
+    /**
+     * @return the query
+     */
+    public QueryEntity getQuery() {
+        return query;
+    }
+
+    /**
+     * @param query the query to set
+     */
+    public void setQuery(QueryEntity query) {
+        this.query = query;
+    }
+
+    /**
+     * @return the paging
+     */
+    public PagingEntity getPaging() {
+        return paging;
+    }
+
+    /**
+     * @param paging the paging to set
+     */
+    public void setPaging(PagingEntity paging) {
+        this.paging = paging;
+    }
+
+    /**
+     * @return the include
+     */
+    public String[] getInclude() {
+        return include;
+    }
+
+    /**
+     * @param include the include to set
+     */
+    public void setInclude(String[] include) {
+        this.include = include;
+    }
+
+    /**
+     * @return the fields
+     */
+    public String[] getFields() {
+        return fields;
+    }
+
+    /**
+     * @param fields the fields to set
+     */
+    public void setFields(String[] fields) {
+        this.fields = fields;
+    }
+
+}
