@@ -15,31 +15,26 @@
  */
 package de.acosix.alfresco.rest.client.api.integration.nodesV1;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.core.UriBuilder;
-
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.LocalResteasyProviderFactory;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.acosix.alfresco.rest.client.api.NodesV1;
 import de.acosix.alfresco.rest.client.api.NodesV1.IncludeOption;
@@ -57,15 +52,14 @@ import de.acosix.alfresco.rest.client.model.nodes.PermissionElement.AccessStatus
 import de.acosix.alfresco.rest.client.model.nodes.PermissionsInfo;
 import de.acosix.alfresco.rest.client.model.people.PersonRequestEntity;
 import de.acosix.alfresco.rest.client.resteasy.MultiValuedParamConverterProvider;
+import jakarta.ws.rs.ForbiddenException;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * @author Axel Faust
  */
 public class NodesLockTests
 {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private BasicAuthenticationClientRequestFilter rqAuthFilter;
 
@@ -89,7 +83,8 @@ public class NodesLockTests
         mapper.registerModule(module);
         resteasyJacksonProvider.setMapper(mapper);
 
-        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(new ResteasyProviderFactory());
+        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(
+                ResteasyProviderFactory.getInstance());
         resteasyProviderFactory.register(resteasyJacksonProvider);
         // will cause a warning regarding Jackson provider which is already registered
         RegisterBuiltin.register(resteasyProviderFactory);
@@ -99,7 +94,7 @@ public class NodesLockTests
         this.rqAuthFilter.setUserName("admin");
         this.rqAuthFilter.setAuthentication("admin");
 
-        final ResteasyClient client = new ResteasyClientBuilder().providerFactory(resteasyProviderFactory).build();
+        final ResteasyClient client = new ResteasyClientBuilderImpl().providerFactory(resteasyProviderFactory).build();
         this.target = client.target(UriBuilder.fromPath("http://localhost:8082/alfresco"));
         this.target.register(this.rqAuthFilter);
 
@@ -244,11 +239,9 @@ public class NodesLockTests
         }
         aspectNames.add("cm:author");
 
-        this.expectedException.expect(ForbiddenException.class);
-
-        this.nodesAPI.updateNode(createdNode.getId(), updateRq);
-
-        Assert.fail("Update should not be allowed with full lock");
+        Assert.assertThrows(ForbiddenException.class, () -> {
+            this.nodesAPI.updateNode(createdNode.getId(), updateRq);
+        });
     }
 
     @Test

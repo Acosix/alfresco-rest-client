@@ -15,40 +15,34 @@
  */
 package de.acosix.alfresco.rest.client.api.integration;
 
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.core.UriBuilder;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.LocalResteasyProviderFactory;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.acosix.alfresco.rest.client.api.AuthenticationV1;
 import de.acosix.alfresco.rest.client.jackson.RestAPIBeanDeserializerModifier;
 import de.acosix.alfresco.rest.client.jaxrs.BasicAuthenticationClientRequestFilter;
 import de.acosix.alfresco.rest.client.model.authentication.TicketEntity;
 import de.acosix.alfresco.rest.client.model.authentication.TicketRequest;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * @author Axel Faust
  */
 public class AuthenticationV1Tests
 {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private ResteasyWebTarget target;
 
@@ -66,12 +60,13 @@ public class AuthenticationV1Tests
         mapper.registerModule(module);
         resteasyJacksonProvider.setMapper(mapper);
 
-        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(new ResteasyProviderFactory());
+        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(
+                ResteasyProviderFactory.getInstance());
         resteasyProviderFactory.register(resteasyJacksonProvider);
         // will cause a warning regarding Jackson provider which is already registered
         RegisterBuiltin.register(resteasyProviderFactory);
 
-        final ResteasyClient client = new ResteasyClientBuilder().providerFactory(resteasyProviderFactory).build();
+        final ResteasyClient client = new ResteasyClientBuilderImpl().providerFactory(resteasyProviderFactory).build();
         this.target = client.target(UriBuilder.fromPath("http://localhost:8082/alfresco"));
 
         this.authenticationAPI = this.target.proxy(AuthenticationV1.class);
@@ -119,7 +114,8 @@ public class AuthenticationV1Tests
 
         this.authenticationAPI.deleteTicket();
 
-        this.expectedException.expect(NotAuthorizedException.class);
-        this.authenticationAPI.validateTicket();
+        Assert.assertThrows(NotAuthorizedException.class, () -> {
+            this.authenticationAPI.validateTicket();
+        });
     }
 }

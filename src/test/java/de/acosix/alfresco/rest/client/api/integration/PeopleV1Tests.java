@@ -15,25 +15,21 @@
  */
 package de.acosix.alfresco.rest.client.api.integration;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.util.UUID;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.LocalResteasyProviderFactory;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.acosix.alfresco.rest.client.api.AuthenticationV1;
 import de.acosix.alfresco.rest.client.api.PeopleV1;
@@ -42,15 +38,13 @@ import de.acosix.alfresco.rest.client.jaxrs.BasicAuthenticationClientRequestFilt
 import de.acosix.alfresco.rest.client.model.authentication.TicketRequest;
 import de.acosix.alfresco.rest.client.model.people.PersonRequestEntity;
 import de.acosix.alfresco.rest.client.model.people.PersonResponseEntity;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * @author Axel Faust
  */
 public class PeopleV1Tests
 {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private BasicAuthenticationClientRequestFilter rqAuthFilter;
 
@@ -72,14 +66,15 @@ public class PeopleV1Tests
         mapper.registerModule(module);
         resteasyJacksonProvider.setMapper(mapper);
 
-        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(new ResteasyProviderFactory());
+        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(
+                ResteasyProviderFactory.getInstance());
         resteasyProviderFactory.register(resteasyJacksonProvider);
         // will cause a warning regarding Jackson provider which is already registered
         RegisterBuiltin.register(resteasyProviderFactory);
 
         this.rqAuthFilter = new BasicAuthenticationClientRequestFilter();
 
-        final ResteasyClient client = new ResteasyClientBuilder().providerFactory(resteasyProviderFactory).build();
+        final ResteasyClient client = new ResteasyClientBuilderImpl().providerFactory(resteasyProviderFactory).build();
         this.target = client.target(UriBuilder.fromPath("http://localhost:8082/alfresco"));
         this.target.register(this.rqAuthFilter);
 

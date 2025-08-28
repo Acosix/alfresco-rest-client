@@ -15,30 +15,25 @@
  */
 package de.acosix.alfresco.rest.client.api.integration.nodesV1;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.client.ClientRequestFilter;
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.codec.binary.Base64;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.LocalResteasyProviderFactory;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.acosix.alfresco.rest.client.api.AuthenticationV1;
 import de.acosix.alfresco.rest.client.api.NodesV1;
@@ -51,15 +46,14 @@ import de.acosix.alfresco.rest.client.model.nodes.ChildNodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.NodeResponseEntity;
 import de.acosix.alfresco.rest.client.model.nodes.PaginatedNodeChildrenList;
 import de.acosix.alfresco.rest.client.resteasy.MultiValuedParamConverterProvider;
+import jakarta.ws.rs.client.ClientRequestFilter;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * @author Axel Faust
  */
 public class NodesBasicReadAccessTests
 {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private ResteasyWebTarget target;
 
@@ -77,13 +71,14 @@ public class NodesBasicReadAccessTests
         mapper.registerModule(module);
         resteasyJacksonProvider.setMapper(mapper);
 
-        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(new ResteasyProviderFactory());
+        final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(
+                ResteasyProviderFactory.getInstance());
         resteasyProviderFactory.register(resteasyJacksonProvider);
         // will cause a warning regarding Jackson provider which is already registered
         RegisterBuiltin.register(resteasyProviderFactory);
         resteasyProviderFactory.register(new MultiValuedParamConverterProvider());
 
-        final ResteasyClient client = new ResteasyClientBuilder().providerFactory(resteasyProviderFactory).build();
+        final ResteasyClient client = new ResteasyClientBuilderImpl().providerFactory(resteasyProviderFactory).build();
         this.target = client.target(UriBuilder.fromPath("http://localhost:8082/alfresco"));
 
         final TicketRequest rq = new TicketRequest();
@@ -93,7 +88,7 @@ public class NodesBasicReadAccessTests
         final AuthenticationV1 authenticationAPI = this.target.proxy(AuthenticationV1.class);
         final TicketEntity ticket = authenticationAPI.createTicket(rq);
 
-        final ClientRequestFilter rqAuthFilter = (requestContext) -> {
+        final ClientRequestFilter rqAuthFilter = requestContext -> {
             final String base64Token = Base64.encodeBase64String(ticket.getId().getBytes(StandardCharsets.UTF_8));
             requestContext.getHeaders().add("Authorization", "Basic " + base64Token);
         };
