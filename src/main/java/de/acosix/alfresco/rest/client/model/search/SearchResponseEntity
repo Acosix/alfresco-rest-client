@@ -1,0 +1,45 @@
+package de.acosix.alfresco.rest.client.model.search;
+
+import de.acosix.alfresco.rest.client.jackson.Wrapped;
+import de.acosix.alfresco.rest.client.jackson.Wrapped.WrapType;
+import de.acosix.alfresco.rest.client.model.nodes.NodeResponseEntity;
+
+/**
+ * @author Walid Maadi
+ * @since 24/08/2022 - 10:24
+ */
+@Wrapped(WrapType.ENTRY)
+public class SearchResponseEntity extends NodeResponseEntity  {
+
+    private Object search;
+    private String location;
+
+    /**
+     * @return the search
+     */
+    public Object getSearch() {
+        return search;
+    }
+
+    /**
+     * @param search the search to set
+     */
+    public void setSearch(Object search) {
+        this.search = search;
+    }
+
+    /**
+     * @return the location
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * @param location the location to set
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+}
