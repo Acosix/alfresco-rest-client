@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Acosix GmbH
+ * Copyright 2019 - 2026 Acosix GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,7 @@ public class NodesBasicReadAccessTests
         mapper.registerModule(module);
         resteasyJacksonProvider.setMapper(mapper);
 
+        ResteasyProviderFactory.setRegisterBuiltinByDefault(false);
         final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(
                 ResteasyProviderFactory.getInstance());
         resteasyProviderFactory.register(resteasyJacksonProvider);
@@ -113,17 +114,17 @@ public class NodesBasicReadAccessTests
         final NodeResponseEntity modelsFolder = this.nodesAPI.getNode("-root-", "Data Dictionary/Models");
         this.validateCoreNodeData(modelsFolder, "Models", "cm:folder");
 
-        Assert.assertEquals("admin", modelsFolder.getCreatedByUser().getId());
-        Assert.assertEquals("Administrator", modelsFolder.getCreatedByUser().getDisplayName());
+        Assert.assertEquals("System", modelsFolder.getCreatedByUser().getId());
+        Assert.assertEquals("System", modelsFolder.getCreatedByUser().getDisplayName());
 
-        Assert.assertEquals("admin", modelsFolder.getModifiedByUser().getId());
-        Assert.assertEquals("Administrator", modelsFolder.getModifiedByUser().getDisplayName());
+        Assert.assertEquals("System", modelsFolder.getModifiedByUser().getId());
+        Assert.assertEquals("System", modelsFolder.getModifiedByUser().getDisplayName());
 
         final NodeResponseEntity sharedFolder = this.nodesAPI.getNode("-root-", "Shared");
         this.validateCoreNodeData(sharedFolder, "Shared", "cm:folder");
 
-        Assert.assertEquals("admin", sharedFolder.getCreatedByUser().getId());
-        Assert.assertEquals("Administrator", sharedFolder.getCreatedByUser().getDisplayName());
+        Assert.assertEquals("System", sharedFolder.getCreatedByUser().getId());
+        Assert.assertEquals("System", sharedFolder.getCreatedByUser().getDisplayName());
 
         Assert.assertEquals("admin", sharedFolder.getModifiedByUser().getId());
         Assert.assertEquals("Administrator", sharedFolder.getModifiedByUser().getDisplayName());
@@ -194,11 +195,11 @@ public class NodesBasicReadAccessTests
     {
         this.validateCoreNodeData(rootNode, "Company Home", "cm:folder");
 
-        Assert.assertEquals("admin", rootNode.getCreatedByUser().getId());
-        Assert.assertEquals("Administrator", rootNode.getCreatedByUser().getDisplayName());
+        Assert.assertEquals("System", rootNode.getCreatedByUser().getId());
+        Assert.assertEquals("System", rootNode.getCreatedByUser().getDisplayName());
 
-        Assert.assertEquals("admin", rootNode.getModifiedByUser().getId());
-        Assert.assertEquals("Administrator", rootNode.getModifiedByUser().getDisplayName());
+        Assert.assertEquals("System", rootNode.getModifiedByUser().getId());
+        Assert.assertEquals("System", rootNode.getModifiedByUser().getDisplayName());
     }
 
     private void validateCoreNodeData(final NodeResponseEntity node, final String expectedNodeName, final String expectedNodeType,

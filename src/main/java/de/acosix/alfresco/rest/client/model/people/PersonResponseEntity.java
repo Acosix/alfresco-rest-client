@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Acosix GmbH
+ * Copyright 2019 - 2026 Acosix GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ import de.acosix.alfresco.rest.client.jackson.Wrapped.WrapType;
 public class PersonResponseEntity extends CommonPersonDetails
 {
 
+    private String displayName;
+
     /**
      * Creates a new instance of this value class.
      */
@@ -38,11 +40,28 @@ public class PersonResponseEntity extends CommonPersonDetails
      * the values of properties / capabilities - will be recursively copied to create a best possible detached copy.
      *
      * @param reference
-     *            the reference / template for the new instance
+     *     the reference / template for the new instance
      */
     public PersonResponseEntity(final PersonResponseEntity reference)
     {
         super(reference);
+    }
+
+    /**
+     * @return the displayName
+     */
+    public String getDisplayName()
+    {
+        return displayName;
+    }
+
+    /**
+     * @param displayName
+     *     the displayName to set
+     */
+    public void setDisplayName(String displayName)
+    {
+        this.displayName = displayName;
     }
 
 }

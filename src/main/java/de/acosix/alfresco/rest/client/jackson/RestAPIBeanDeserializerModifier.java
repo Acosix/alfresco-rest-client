@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Acosix GmbH
+ * Copyright 2019 - 2026 Acosix GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
  */
 public class RestAPIBeanDeserializerModifier extends BeanDeserializerModifier
 {
+
+    private static final long serialVersionUID = 6079702545162263118L;
 
     /**
      * {@inheritDoc}

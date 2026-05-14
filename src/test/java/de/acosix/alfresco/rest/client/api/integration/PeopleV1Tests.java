@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Acosix GmbH
+ * Copyright 2019 - 2026 Acosix GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,6 +66,7 @@ public class PeopleV1Tests
         mapper.registerModule(module);
         resteasyJacksonProvider.setMapper(mapper);
 
+        ResteasyProviderFactory.setRegisterBuiltinByDefault(false);
         final LocalResteasyProviderFactory resteasyProviderFactory = new LocalResteasyProviderFactory(
                 ResteasyProviderFactory.getInstance());
         resteasyProviderFactory.register(resteasyJacksonProvider);

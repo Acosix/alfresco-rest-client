@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- Copyright 2019 Acosix GmbH
+ Copyright 2019 - 2026 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
 
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
-        <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.6.0-SNAPSHOT</version>
+        <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
+        <version>1.6.0</version>
     </parent>
 
     <groupId>de.acosix.alfresco.rest.client</groupId>
     <artifactId>de.acosix.alfresco.rest.client</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Acosix Alfresco v1 ReST API Client</name>
@@ -80,7 +80,8 @@
         <!-- plugin is incomatible with Java 11+ -->
         <quality.findBugs.skip>true</quality.findBugs.skip>
 
-        <acosix.definitions.version>1.6.0-SNAPSHOT</acosix.definitions.version>
+        <docker.tests.repository.base>alfresco/alfresco-content-repository-community:26.1.0</docker.tests.repository.base>
+        <activemq.version>6.2.5</activemq.version>
     </properties>
 
     <repositories>
@@ -175,6 +176,21 @@
                 <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- relevant to support vm: transport for non-AMQ-Docker setup -->
+            <!-- transitive dependencies are already part of ACS -->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>${activemq.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -228,6 +244,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -262,7 +283,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>${acosix.definitions.version}</version>
+                            <version>${maven.acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                     <executions>
